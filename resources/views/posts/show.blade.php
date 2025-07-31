@@ -51,10 +51,10 @@
                             </a>
                         </li>
                         <li class="list-inline-item">
-                            <i class="ti-timer"></i>{{ $post->read_time ?? '2' }} Min To Read
+                            <i class="ti-timer"></i> {{ $post->formatted_read_time }}
                         </li>
                         <li class="list-inline-item">
-                            <i class="ti-calendar"></i>{{ $post->created_at->format('d M, Y') }}
+                            <i class="ti-calendar"></i> {{ $post->created_at->format('d M, Y') }}
                         </li>
                         <li class="list-inline-item">
                             @if (auth()->check())
@@ -63,22 +63,22 @@
                                     <button class="btn btn-outline-primary mb-2" type="submit">
                                         <i style="color: lightgreen;" class="far fa-heart"></i>
                                         <span class="total-likes" style="font-family: Arial, sans-serif; font-size: 10px; color: lightgreen;"></span>
-                                        {{ $post->likes_count }}
+                                        {{ $post->likes }}
                                     </button>
                                 </form>
                             @else
                                 <a href="{{ route('login') }}" class="btn btn-outline-primary mb-2">
                                     <i style="color: lightgreen;" class="far fa-heart"></i>
                                     <span class="total-likes" style="font-family: Arial, sans-serif; font-size: 10px; color: lightgreen;"></span>
-                                    {{ $post->likes_count }}
+                                    {{ $post->likes }}
                                 </a>
                             @endif
                         </li>
                         <li class="list-inline-item">
                             <ul class="card-meta-tag list-inline">
-                                <li class="list-inline-item"><a href="#">Color</a></li>
-                                <li class="list-inline-item"><a href="#">Recipe</a></li>
-                                <li class="list-inline-item"><a href="#">Fish</a></li>
+                                @foreach (explode(',', $post->tags ?? '') as $tag)
+                                    <li class="list-inline-item"><a href="#">{{ trim($tag) }}</a></li>
+                                @endforeach
                             </ul>
                         </li>
                     </ul>

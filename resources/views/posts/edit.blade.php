@@ -39,22 +39,50 @@
         <div class="row shadow-lg" style="max-width: 900px; width: 100%; border-radius: 15px; overflow: hidden; backdrop-filter: blur(10px);">
             <div class="col-md-6 d-flex flex-column justify-content-center align-items-center p-4" style="background-color: rgba(255, 255, 255, 0.8);">
                 <div class="text-center mb-4">
-                    <img src="{{ asset('images/reader-logo.png') }}" alt="Reader Logo" style="max-height: 50px; margin-bottom: 10px;">
+                    <img src="{{ asset('images/logo.png') }}" alt="Company Logo" class="img-fluid mb-4" style="max-width: 150px;">
                     <h2>Edit Post</h2>
                     <p>Update your existing post</p>
                 </div>
             </div>
             <div class="col-md-6 d-flex flex-column justify-content-center align-items-center bg-light p-4">
+                @if (session('success'))
+                    <div class="alert alert-success">
+                        {{ session('success') }}
+                    </div>
+                    <script>
+                        document.querySelector('form').reset();
+                    </script>
+                @endif
+                @if (session('error'))
+                    <div class="alert alert-danger">
+                        {{ session('error') }}
+                    </div>
+                @endif
+                @if ($errors->any())
+                    <div class="alert alert-danger">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
                 <form method="POST" action="{{ route('posts.update', $post->id) }}" enctype="multipart/form-data">
                     @csrf
                     @method('PUT')
                     <div class="form-group">
                         <label for="title">Title</label>
                         <input type="text" name="title" id="title" class="form-control" value="{{ old('title', $post->title) }}" required>
+                        @error('title')
+                        <small class="text-danger">{{ $message }}</small>
+                        @enderror
                     </div>
                     <div class="form-group">
                         <label for="content">Content</label>
                         <textarea name="content" id="content" class="form-control" rows="5" required>{{ old('content', $post->content) }}</textarea>
+                        @error('content')
+                        <small class="text-danger">{{ $message }}</small>
+                        @enderror
                     </div>
                     <div class="form-group">
                         <label for="image">Image</label>
@@ -62,10 +90,16 @@
                         @if($post->image_url)
                             <div class="mt-2"><img src="{{ $post->image_url }}" alt="Current Image" style="max-width: 150px;"></div>
                         @endif
+                        @error('image')
+                        <small class="text-danger">{{ $message }}</small>
+                        @enderror
                     </div>
                     <div class="form-group">
                         <label for="tags">Tags (comma-separated)</label>
                         <input type="text" name="tags" id="tags" class="form-control" value="{{ old('tags', $post->tags) }}" placeholder="e.g., tech, lifestyle, coding">
+                        @error('tags')
+                        <small class="text-danger">{{ $message }}</small>
+                        @enderror
                     </div>
                     <button type="submit" class="btn btn-primary">Update Post</button>
                 </form>
@@ -73,7 +107,6 @@
         </div>
     </div>
 </section>
-
 @include('components.footer')
 
 <!-- JS Plugins -->

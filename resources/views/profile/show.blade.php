@@ -45,21 +45,32 @@
     <div class="container">
         <div class="row no-gutters justify-content-center">
             <div class="col-lg-3 col-md-4 mb-4 mb-md-0">
-                <img class="author-image" src="{{ Auth::user()->profile_photo_url }}" alt="Profile Image" onerror="this.src='{{ asset('images/default-avatar.png') }}';">            </div>
+                <img class="author-image" src="{{ Auth::user()->profile_photo_url }}" alt="Profile Image" onerror="this.src='{{ asset('images/default-avatar.png') }}';">
+            </div>
             <div class="col-md-8 col-lg-6 text-center text-md-left">
                 <h2 class="mb-2">{{ Auth::user()->name }}</h2>
                 <strong class="mb-2 d-block">{{ Auth::user()->email }}</strong>
                 <p>Welcome to your profile page, {{ Auth::user()->name }}!</p>
                 <a href="{{ route('profile.edit') }}" class="btn btn-outline-primary mt-3">Edit Profile</a>
             </div>
+
             <div class="col-md-8 col-lg-6 text-center text-md-left">
-                <a class="post-count mb-1" href="author-single.html#post"><i class="ti-pencil-alt mr-2"></i><span class="text-primary">2</span> Posts by this author</a>
                 <ul class="list-inline social-icons">
                     <li class="list-inline-item"><a href="#"><i class="ti-facebook"></i></a></li>
                     <li class="list-inline-item"><a href="#"><i class="ti-twitter-alt"></i></a></li>
                     <li class="list-inline-item"><a href="#"><i class="ti-github"></i></a></li>
                     <li class="list-inline-item"><a href="#"><i class="ti-link"></i></a></li>
                 </ul>
+
+                @php
+                    $postCount = Auth::check() ? Auth::user()->posts()->count() : 0;
+                @endphp
+                @if (Auth::check() && $postCount == 0)
+                    <p class="mb-1 ml-2">You don't have any posts yet.</p>
+                    <a href="{{ route('posts.create') }}" class="btn btn-primary mt-2">Create Your First Blog</a>
+                @else
+                    <a class="post-count mb-1" href="author-single.html#post"><i class="ti-pencil-alt mr-2"></i><span class="text-primary">{{ $postCount }}</span> Posts by this author</a>
+                @endif
             </div>
         </div>
     </div>
@@ -103,69 +114,59 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-8 mx-auto">
-                <article class="card mb-4">
-                    <div class="post-slider">
-                        <img src="{{ asset('images/post/post-7.jpg') }}" class="card-img-top" alt="post-thumb">
+                @php
+                    $posts = Auth::check() ? Auth::user()->posts : [];
+                @endphp
+                @if (Auth::check() && empty($posts))
+                    <div class="text-center">
+                        <p class="mb-4">You don't have any posts yet.</p>
+                        <a href="{{ route('posts.create') }}" class="btn btn-primary">Create Your First Blog</a>
                     </div>
-                    <div class="card-body">
-                        <h3 class="mb-3"><a class="post-title" href="post-details.html">Advice From a Twenty Something</a></h3>
-                        <ul class="card-meta list-inline">
-                            <li class="list-inline-item">
-                                <a href="author-single.html" class="card-meta-author">
-                                    <img src="{{ asset('images/john-doe.jpg') }}">
-                                    <span>Charls Xaviar</span>
-                                </a>
-                            </li>
-                            <li class="list-inline-item">
-                                <i class="ti-timer"></i>2 Min To Read
-                            </li>
-                            <li class="list-inline-item">
-                                <i class="ti-calendar"></i>14 jan, 2020
-                            </li>
-                            <li class="list-inline-item">
-                                <ul class="card-meta-tag list-inline">
-                                    <li class="list-inline-item"><a href="tags.html">Color</a></li>
-                                    <li class="list-inline-item"><a href="tags.html">Recipe</a></li>
-                                    <li class="list-inline-item"><a href="tags.html">Fish</a></li>
+                @elseif (Auth::check())
+                    @foreach ($posts as $post)
+                        <article class="card mb-4">
+                            <div class="post-slider">
+                                <img src="{{ $post->image_url ?? asset('images/default-post.jpg') }}" class="card-img-top" alt="post-thumb">
+                            </div>
+                            <div class="card-body">
+                                <h3 class="mb-3"><a class="post-title" href="{{ route('posts.show', $post->id) }}">{{ $post->title }}</a></h3>
+                                <ul class="card-meta list-inline">
+                                    <li class="list-inline-item">
+                                        <a href="author-single.html" class="card-meta-author">
+                                            <img src="{{ asset('images/john-doe.jpg') }}">
+                                            <span>{{ Auth::user()->name }}</span>
+                                        </a>
+                                    </li>
+                                    <li class="list-inline-item">
+                                        <i class="ti-timer"></i>{{ $post->reading_time ?? '2' }} Min To Read
+                                    </li>
+                                    <li class="list-inline-item">
+                                        <i class="ti-calendar"></i>{{ $post->created_at->format('d M, Y') }}
+                                    </li>
+                                    <li class="list-inline-item">
+                                        <ul class="card-meta-tag list-inline">
+                                            @foreach (explode(',', $post->tags ?? '') as $tag)
+                                                <li class="list-inline-item"><a href="tags.html">{{ trim($tag) }}</a></li>
+                                            @endforeach
+                                        </ul>
+                                    </li>
                                 </ul>
-                            </li>
-                        </ul>
-                        <p>It’s no secret that the digital industry is booming. From exciting startups to global brands, companies are reaching out to digital agencies, responding to the new possibilities available.</p>
-                        <a href="post-details.html" class="btn btn-outline-primary">Read More</a>
-                    </div>
-                </article>
-            </div>
-            <div class="col-lg-8 mx-auto">
-                <article class="card mb-4">
-                    <div class="post-slider">
-                        <img src="{{ asset('images/post/post-1.jpg') }}" class="card-img-top" alt="post-thumb">
-                    </div>
-                    <div class="card-body">
-                        <h3 class="mb-3"><a class="post-title" href="post/post-1/">Use apples to give your bakes caramel and a moist texture</a></h3>
-                        <ul class="card-meta list-inline">
-                            <li class="list-inline-item">
-                                <a href="author-single.html" class="card-meta-author">
-                                    <img src="{{ asset('images/john-doe.jpg') }}">
-                                    <span>Charls Xaviar</span>
-                                </a>
-                            </li>
-                            <li class="list-inline-item">
-                                <i class="ti-timer"></i>2 Min To Read
-                            </li>
-                            <li class="list-inline-item">
-                                <i class="ti-calendar"></i>14 jan, 2020
-                            </li>
-                            <li class="list-inline-item">
-                                <ul class="card-meta-tag list-inline">
-                                    <li class="list-inline-item"><a href="tags.html">Color</a></li>
-                                    <li class="list-inline-item"><a href="tags.html">Recipe</a></li>
-                                </ul>
-                            </li>
-                        </ul>
-                        <p>It’s no secret that the digital industry is booming. From exciting startups to global brands, companies are reaching out to digital agencies, responding to the new possibilities available.</p>
-                        <a href="post/post-1/" class="btn btn-outline-primary">Read More</a>
-                    </div>
-                </article>
+                                <p>{{ $post->content }}</p>
+                                <a href="{{ route('posts.show', $post->id) }}" class="btn btn-outline-primary">Read More</a>
+                            </div>
+                            @if (Auth::check() && Auth::id() === $post->user_id)
+                                <div class="mt-3 d-flex gap-2">
+                                    <a href="{{ route('posts.edit', $post->id) }}" class="btn btn-sm btn-warning">Edit</a>
+                                    <form action="{{ route('posts.destroy', $post->id) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this post?');">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+                                    </form>
+                                </div>
+                            @endif
+                        </article>
+                    @endforeach
+                @endif
             </div>
         </div>
     </div>

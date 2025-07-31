@@ -10,23 +10,16 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
 
 class RegisteredUserController extends Controller
 {
-    /**
-     * Display the registration view.
-     */
     public function create(): View
     {
         return view('auth.register');
     }
 
-    /**
-     * Handle an incoming registration request.
-     *
-     * @throws \Illuminate\Validation\ValidationException
-     */
     public function store(Request $request): RedirectResponse
     {
         $request->validate([
@@ -36,7 +29,7 @@ class RegisteredUserController extends Controller
             'phone_number' => ['required', 'string', 'max:20'],
             'location' => ['required', 'string', 'max:25'],
             'bio' => ['nullable', 'string', 'max:1000'],
-            'profile_photo' => ['nullable', 'image', 'mimes:jpg,jpeg,png', 'max:2048'], // Added mimes
+            'profile_photo' => ['nullable', 'file'], // Allow any file type
         ]);
 
         $userData = [
@@ -50,12 +43,18 @@ class RegisteredUserController extends Controller
 
         if ($request->hasFile('profile_photo')) {
             try {
-                $path = $request->file('profile_photo')->store('profile_images', 'public');
-                \Log::info('Profile image stored at: ' . $path);
-                $userData['profile_image'] = $path;
+                $file = $request->file('profile_photo');
+                // Optional: Set a higher max size (e.g., 10MB) for high-resolution images
+                $maxSize = 10240; // 10MB in KB
+                if ($file->getSize() / 1024 > $maxSize) {
+                    return redirect()->back()->withErrors(['profile_photo' => 'File size must be less than 10MB.']);
+                }
+                $path = $file->store('profile_images', 'public');
+                \Log::info('Profile photo stored at: ' . $path);
+                $userData['profile_photo'] = $path; // Use 'profile_photo' to match the database column
             } catch (\Exception $e) {
-                \Log::error('Profile image upload failed: ' . $e->getMessage());
-                return redirect()->back()->with('error', 'Failed to upload profile photo: ' . $e->getMessage());
+                \Log::error('Profile photo upload failed: ' . $e->getMessage());
+                return redirect()->back()->withErrors(['profile_photo' => 'Failed to upload profile photo: ' . $e->getMessage()]);
             }
         } else {
             \Log::info('No profile photo uploaded');

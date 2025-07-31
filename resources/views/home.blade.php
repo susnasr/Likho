@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html lang="en-us">
 <head>
     <meta charset="utf-8">
@@ -128,7 +127,7 @@
                                     </a>
                                 </li>
                                 <li class="list-inline-item">
-                                    <i class="ti-timer"></i> {{ $editorsPick->read_time }} seconds to read
+                                    <i class="ti-timer"></i> {{ $editorsPick->formatted_read_time }}
                                 </li>
                                 <li class="list-inline-item">
                                     <i class="ti-calendar"></i> {{ $editorsPick->created_at->format('d M, Y') }}
@@ -162,7 +161,7 @@
                                         <i class="ti-calendar"></i> {{ $post->created_at->format('d M, Y') }}
                                     </li>
                                     <li class="list-inline-item mb-0">
-                                        <i class="ti-timer"></i> {{ $post->read_time }} seconds to read
+                                        <i class="ti-timer"></i> {{ $post->formatted_read_time }}
                                     </li>
                                 </ul>
                             </div>
@@ -190,7 +189,7 @@
                                     </a>
                                 </li>
                                 <li class="list-inline-item">
-                                    <i class="ti-timer"></i> {{ $post->read_time }} seconds to read
+                                    <i class="ti-timer"></i> {{ $post->formatted_read_time }}
                                 </li>
                                 <li class="list-inline-item">
                                     <i class="ti-calendar"></i> {{ $post->created_at->format('d M, Y') }}
@@ -240,7 +239,7 @@
                                     </a>
                                 </li>
                                 <li class="list-inline-item">
-                                    <i class="ti-timer"></i> {{ $post->read_time }} seconds to read
+                                    <i class="ti-timer"></i> {{ $post->formatted_read_time }}
                                 </li>
                                 <li class="list-inline-item">
                                     <i class="ti-calendar"></i> {{ $post->created_at->format('d M, Y') }}
@@ -285,7 +284,6 @@
                         <li class="list-inline-item"><a href="#"><i class="ti-github"></i></a></li>
                         <li class="list-inline-item"><a href="#"><i class="ti-youtube"></i></a></li>
                     </ul>
-{{--                    <a href="{{ route('profile.show') }}" class="btn btn-primary mb-2">About me</a>--}}
                 </div>
 
                 <!-- Promotion -->
@@ -381,6 +379,9 @@
                                     <ul class="card-meta list-inline mb-0">
                                         <li class="list-inline-item mb-0">
                                             <i class="ti-calendar"></i> {{ $post->created_at->format('d M, Y') }}
+                                        </li>
+                                        <li class="list-inline-item mb-0">
+                                            <i class="ti-timer"></i> {{ $post->formatted_read_time }}
                                         </li>
                                     </ul>
                                 </div>
