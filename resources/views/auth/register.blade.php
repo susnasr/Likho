@@ -99,12 +99,12 @@
                     </div>
 
                     <div class="form-group mb-2">
-                        <label for="profile_photo" class="form-label" style="font-size: 0.9em;">Profile Photo</label>
-                        <input type="file" name="profile_photo" id="profile_photo" class="form-control @error('profile_photo') is-invalid @enderror" style="font-size: 0.9em; padding: 0.5em;">
-                        @error('profile_photo')
+                        <label for="profile_image" class="form-label" style="font-size: 0.9em;">Profile Photo</label>
+                        <input type="file" name="profile_image" id="profile_image" class="form-control @error('profile_image') is-invalid @enderror">
+                        @error('profile_image')
                         <span class="invalid-feedback" role="alert">
-                    <strong>{{ $message }}</strong>
-                </span>
+            <strong>{{ $message }}</strong>
+        </span>
                         @enderror
                     </div>
                     <div class="mt-2">
