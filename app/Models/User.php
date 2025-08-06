@@ -22,7 +22,8 @@ class User extends Authenticatable
         'profile_image',
         'location',
         'phone_number',
-        'bio'
+        'bio',
+        'slug'
     ];
 
     /**
@@ -73,5 +74,15 @@ class User extends Authenticatable
     public function posts()
     {
         return $this->hasMany(Post::class);
+    }
+
+    protected static function boot()
+    {
+        parent::boot();
+        static::creating(function ($user) {
+            if (!$user->slug) {
+                $user->slug = Str::slug($user->name); // Auto-generate slug from name
+            }
+        });
     }
 }

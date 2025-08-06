@@ -31,7 +31,7 @@ Route::middleware(['auth'])->group(function () {
 });
 
 // Authors
-Route::get('/author/{user}', [AuthorController::class, 'show'])->name('author.show');
+Route::get('/author/{slug}', [AuthorController::class, 'show'])->name('author.show');
 
 // Search route
 Route::get('/search', [SearchController::class, 'index'])->name('search');

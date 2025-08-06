@@ -49,7 +49,7 @@
                                     </h3>
                                     <ul class="card-meta list-inline">
                                         <li class="list-inline-item">
-                                            <a href="{{ route('author.show', $post->user->id) }}" class="card-meta-author">
+                                            <a href="{{ route('author.show', ['slug' => $post->user->slug]) }}" class="card-meta-author">
                                                 <img src="{{ $post->user->profile_image ? Storage::url($post->user->profile_image) : asset('default-avatar.png') }}" alt="{{ $post->user->name }}">
                                                 <span>{{ $post->user->name }}</span>
                                             </a>

@@ -20,7 +20,7 @@
                     </li>
                     <li class="nav-item d-flex align-items-center">
                         <form class="search-bar mr-2" method="GET" action="{{ route('search') }}">
-                            <input id="search-query" name="query" type="search" placeholder="Type & Hit Enter...">
+                            <input id="search-query" name="search" type="search" placeholder="Type & Hit Enter..." value="{{ request()->query('search') }}">
                         </form>
                         <button class="navbar-toggler border-0 order-1" type="button" data-toggle="collapse" data-target="#navigation">
                             <i class="ti-menu"></i>
