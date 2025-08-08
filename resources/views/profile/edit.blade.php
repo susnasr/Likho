@@ -99,7 +99,7 @@
                                 <small class="text-danger">{{ $message }}</small>
                                 @enderror
                             </div>
-                            
+
                             <!-- Location -->
                             <div class="form-group">
                                 <label for="location">Location</label>
@@ -114,6 +114,39 @@
                                 <label for="phone_number">Phone Number</label>
                                 <input type="tel" class="form-control" id="phone_number" name="phone_number" value="{{ old('phone_number', $user->phone_number) }}">
                                 @error('phone_number')
+                                <small class="text-danger">{{ $message }}</small>
+                                @enderror
+                            </div>
+
+                            <!-- Social Media Fields -->
+                            <div class="form-group">
+                                <label for="facebook_url">Facebook URL</label>
+                                <input type="url" class="form-control" id="facebook_url" name="facebook_url" value="{{ old('facebook_url', $user->facebook_url) }}">
+                                @error('facebook_url')
+                                <small class="text-danger">{{ $message }}</small>
+                                @enderror
+                            </div>
+
+                            <div class="form-group">
+                                <label for="twitter_url">Twitter URL</label>
+                                <input type="url" class="form-control" id="twitter_url" name="twitter_url" value="{{ old('twitter_url', $user->twitter_url) }}">
+                                @error('twitter_url')
+                                <small class="text-danger">{{ $message }}</small>
+                                @enderror
+                            </div>
+
+                            <div class="form-group">
+                                <label for="github_url">GitHub URL</label>
+                                <input type="url" class="form-control" id="github_url" name="github_url" value="{{ old('github_url', $user->github_url) }}">
+                                @error('github_url')
+                                <small class="text-danger">{{ $message }}</small>
+                                @enderror
+                            </div>
+
+                            <div class="form-group">
+                                <label for="linkedin_url">LinkedIn URL</label>
+                                <input type="url" class="form-control" id="linkedin_url" name="linkedin_url" value="{{ old('linkedin_url', $user->linkedin_url) }}">
+                                @error('linkedin_url')
                                 <small class="text-danger">{{ $message }}</small>
                                 @enderror
                             </div>

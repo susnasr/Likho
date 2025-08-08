@@ -107,6 +107,44 @@
         </span>
                         @enderror
                     </div>
+
+                    <!-- Social Media Fields -->
+                    <div class="form-group mb-2">
+                        <input type="url" name="facebook_url" id="facebook_url" class="form-control @error('facebook_url') is-invalid @enderror" value="{{ old('facebook_url') }}" placeholder="Facebook URL" style="font-size: 0.9em; padding: 0.5em;">
+                        @error('facebook_url')
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </span>
+                        @enderror
+                    </div>
+
+                    <div class="form-group mb-2">
+                        <input type="url" name="twitter_url" id="twitter_url" class="form-control @error('twitter_url') is-invalid @enderror" value="{{ old('twitter_url') }}" placeholder="Twitter URL" style="font-size: 0.9em; padding: 0.5em;">
+                        @error('twitter_url')
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </span>
+                        @enderror
+                    </div>
+
+                    <div class="form-group mb-2">
+                        <input type="url" name="github_url" id="github_url" class="form-control @error('github_url') is-invalid @enderror" value="{{ old('github_url') }}" placeholder="GitHub URL" style="font-size: 0.9em; padding: 0.5em;">
+                        @error('github_url')
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </span>
+                        @enderror
+                    </div>
+
+                    <div class="form-group mb-2">
+                        <input type="url" name="linkedin_url" id="linkedin_url" class="form-control @error('linkedin_url') is-invalid @enderror" value="{{ old('linkedin_url') }}" placeholder="LinkedIn URL" style="font-size: 0.9em; padding: 0.5em;">
+                        @error('linkedin_url')
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </span>
+                        @enderror
+                    </div>
+
                     <div class="mt-2">
                         <button type="submit" class="btn btn-primary btn-block" style="font-size: 0.9em; padding: 0.5em;">Register</button>
                     </div>

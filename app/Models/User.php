@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Str;
 
 class User extends Authenticatable
 {
@@ -23,7 +24,11 @@ class User extends Authenticatable
         'location',
         'phone_number',
         'bio',
-        'slug'
+        'slug',
+        'facebook_url',
+        'twitter_url',
+        'github_url',
+        'linkedin_url'
     ];
 
     /**

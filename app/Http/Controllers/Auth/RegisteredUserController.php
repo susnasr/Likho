@@ -29,6 +29,10 @@ class RegisteredUserController extends Controller
             'location' => ['required', 'string', 'max:25'],
             'bio' => ['nullable', 'string', 'max:1000'],
             'profile_image' => ['nullable', 'file'], // Allow any file type
+            'facebook_url' => ['nullable', 'url', 'max:255'], // New social media validation
+            'twitter_url' => ['nullable', 'url', 'max:255'],
+            'github_url' => ['nullable', 'url', 'max:255'],
+            'linkedin_url' => ['nullable', 'url', 'max:255'],
         ]);
 
         $userData = [
@@ -38,6 +42,10 @@ class RegisteredUserController extends Controller
             'phone_number' => $request->phone_number,
             'location' => $request->location,
             'bio' => $request->bio,
+            'facebook_url' => $request->facebook_url,
+            'twitter_url' => $request->twitter_url,
+            'github_url' => $request->github_url,
+            'linkedin_url' => $request->linkedin_url,
         ];
 
         if ($request->hasFile('profile_image')) {

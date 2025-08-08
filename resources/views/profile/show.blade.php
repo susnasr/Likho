@@ -56,12 +56,19 @@
 
             <div class="col-md-8 col-lg-6 text-center text-md-left">
                 <ul class="list-inline social-icons">
-                    <li class="list-inline-item"><a href="#"><i class="ti-facebook"></i></a></li>
-                    <li class="list-inline-item"><a href="#"><i class="ti-twitter-alt"></i></a></li>
-                    <li class="list-inline-item"><a href="#"><i class="ti-github"></i></a></li>
-                    <li class="list-inline-item"><a href="#"><i class="ti-link"></i></a></li>
+                    @if (Auth::user()->facebook_url)
+                        <li class="list-inline-item"><a href="{{ Auth::user()->facebook_url }}" target="_blank"><i class="ti-facebook"></i></a></li>
+                    @endif
+                    @if (Auth::user()->twitter_url)
+                        <li class="list-inline-item"><a href="{{ Auth::user()->twitter_url }}" target="_blank"><i class="ti-twitter-alt"></i></a></li>
+                    @endif
+                    @if (Auth::user()->github_url)
+                        <li class="list-inline-item"><a href="{{ Auth::user()->github_url }}" target="_blank"><i class="ti-github"></i></a></li>
+                    @endif
+                    @if (Auth::user()->linkedin_url)
+                        <li class="list-inline-item"><a href="{{ Auth::user()->linkedin_url }}" target="_blank"><i class="ti-linkedin"></i></a></li>
+                    @endif
                 </ul>
-
                 @php
                     $postCount = Auth::check() ? Auth::user()->posts()->count() : 0;
                 @endphp

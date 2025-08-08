@@ -31,9 +31,17 @@ class ProfileController extends Controller
             'phone_number' => ['nullable', 'string', 'max:20'],
             'bio' => ['nullable', 'string', 'max:1000'],
             'profile_image' => ['nullable', 'image', 'max:2048'],
+            'facebook_url' => ['nullable', 'url', 'max:255'],
+            'twitter_url' => ['nullable', 'url', 'max:255'],
+            'github_url' => ['nullable', 'url', 'max:255'],
+            'linkedin_url' => ['nullable', 'url', 'max:255'],
         ]);
 
         $userData = $request->only(['name', 'email', 'location', 'phone_number', 'bio']);
+        $userData['facebook_url'] = $request->facebook_url;
+        $userData['twitter_url'] = $request->twitter_url;
+        $userData['github_url'] = $request->github_url;
+        $userData['linkedin_url'] = $request->linkedin_url;
 
         if ($request->hasFile('profile_image')) {
             $path = $request->file('profile_image')->store('profile_images', 'public');
