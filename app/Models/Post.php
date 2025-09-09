@@ -28,9 +28,10 @@ class Post extends Model
         return $this->likes()->count(); // Use relationship count
     }
 
-    public function isLikedByUser()
+    public function isLikedByUser($user = null)
     {
-        return $this->likes()->where('user_id', auth()->id())->exists();
+        $user = $user ?? auth()->user();
+        return $user ? $this->likes()->where('user_id', $user->id)->exists() : false;
     }
 
     public function calculateReadTime()

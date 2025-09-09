@@ -46,7 +46,8 @@
                     <ul class="card-meta my-3 list-inline">
                         <li class="list-inline-item">
                             <a href="{{ route('author.show', $post->user->id) }}" class="card-meta-author">
-                                <img src="{{ $post->user->profile_photo_url }}" alt="{{ $post->user->name }}">
+                                <img src="{{ $post->user->profile_image ? Storage::url($post->user->profile_image) : asset('default-avatar.png') }}"
+                                     alt="User profile image">
                                 <span>{{ $post->user->name }}</span>
                             </a>
                         </li>
@@ -61,7 +62,7 @@
                                 <form action="{{ route('post.like', $post->id) }}" method="POST" style="display:inline;">
                                     @csrf
                                     <button class="btn btn-outline-primary mb-2" type="submit">
-                                        <i style="color: lightgreen;" class="far fa-heart"></i>
+                                        <i style="color: lightgreen;" class="{{ $post->isLikedByUser() ? 'fas' : 'far' }} fa-heart"></i>
                                         <span class="total-likes" style="font-family: Arial, sans-serif; font-size: 10px; color: lightgreen;"></span>
                                         {{ $post->likes }}
                                     </button>
@@ -92,13 +93,11 @@
                     <h3 class="mb-4">Comments</h3>
                     @foreach ($post->comments ?? [] as $comment)
                         <div class="media d-block d-sm-flex mb-4 pb-4">
-                            <a class="d-inline-block mr-2 mb-3 mb-md-0" href="#">
-                                <img src="{{ $comment->user->profile_photo_url ?? asset('images/post/user-01.jpg') }}" class="mr-3 rounded-circle" alt="">
-                            </a>
                             <div class="media-body">
-                                <a href="#" class="h4 d-inline-block mb-3">{{ $comment->user->name ?? 'Anonymous' }}</a>
+                                <a href="#" class="h4 d-inline-block mb-3">{{ $comment->name }}</a>
                                 <p>{{ $comment->content }}</p>
-                                <span class="text-black-800 mr-3 font-weight-600">{{ $comment->created_at->format('F d, Y at h:i a') }}</span>
+                                <span class="text-black-800 mr-3 font-weight-600">{{ $comment->created_at->timezone(config('app.timezone'))->format('F d, Y \a\t h:i a') }}
+</span>
                                 <a class="text-primary font-weight-600" href="#">Reply</a>
                             </div>
                         </div>
@@ -109,8 +108,14 @@
                     <form method="POST" action="{{ route('comments.store', $post->id) }}">
                         @csrf
                         <div class="row">
+                            <div class="form-group col-md-6">
+                                <input type="text" class="form-control shadow-none" name="name" placeholder="Your Name" required>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <input type="email" class="form-control shadow-none" name="email" placeholder="Your Email" required>
+                            </div>
                             <div class="form-group col-md-12">
-                                <textarea class="form-control shadow-none" name="content" rows="7" required></textarea>
+                                <textarea class="form-control shadow-none" name="content" rows="7" placeholder="Your Comment" required></textarea>
                             </div>
                         </div>
                         <button class="btn btn-primary" type="submit">Comment Now</button>

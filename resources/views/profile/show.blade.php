@@ -139,16 +139,16 @@
                                 <h3 class="mb-3"><a class="post-title" href="{{ route('posts.show', $post->id) }}">{{ $post->title }}</a></h3>
                                 <ul class="card-meta list-inline">
                                     <li class="list-inline-item">
-                                        <a href="author-single.html" class="card-meta-author">
-                                            <img src="{{ asset('images/john-doe.jpg') }}">
-                                            <span>{{ Auth::user()->name }}</span>
+                                        <a href="{{ route('author.show', $post->user->id) }}" class="card-meta-author">
+                                            <img src="{{ $post->user->profile_image ? Storage::url($post->user->profile_image) : asset('default-avatar.png') }}" alt="User profile image">
+                                            <span>{{ $post->user->name }}</span>
                                         </a>
                                     </li>
                                     <li class="list-inline-item">
-                                        <i class="ti-timer"></i>{{ $post->reading_time ?? '2' }} Min To Read
+                                        <i class="ti-timer"></i> {{ $post->formatted_read_time }}
                                     </li>
                                     <li class="list-inline-item">
-                                        <i class="ti-calendar"></i>{{ $post->created_at->format('d M, Y') }}
+                                        <i class="ti-calendar"></i> {{ $post->created_at->format('d M, Y') }}
                                     </li>
                                     <li class="list-inline-item">
                                         <ul class="card-meta-tag list-inline">
